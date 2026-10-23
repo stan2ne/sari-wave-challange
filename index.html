@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edce24"><meta name="description" content="Sarı Wave Challange — 2.500 parkur, kazanılan 12 karakter ve Grief finali.">
+  <title>Sarı Wave Challange</title><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="engine.js"></script><script defer src="save.js"></script><script defer src="progression.js"></script><script defer src="library.js"></script><script defer src="music.js"></script><script defer src="game.js"></script>
+</head>
+<body data-theme="yellow">
+<div class="shell">
+  <header class="topbar">
+    <div class="brand" aria-label="Sarı Wave Challange"><span class="brand-icon">⌁</span><span>SARI<small>WAVE CHALLANGE</small></span></div>
+    <div class="edition"><span></span> SOLAR EDITION <b>V.03 / INFINITE DRIVE</b></div>
+    <div class="header-actions"><button class="icon-button" id="settings-open" aria-label="Ayarlar">AYARLAR <span>⚙</span></button><button class="icon-button" id="character-open" aria-label="Karakter koleksiyonu" title="Koleksiyon · C">KOLEKSİYON <span>◇</span></button><button class="icon-button" id="sound" aria-label="Müziği kapat" title="Müziği kapat">MÜZİK AÇIK <span>♫</span></button></div>
+  </header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">GÜNEŞİN RİTMİNE KATIL</p><h1>Işığın hızında. <em>Akışta kal.</em></h1><p class="intro-copy">2.500 parkur. Kazanacağın bir miras. En tepede Grief.</p></div><div class="stat"><strong id="total-completed">00<span>/2500</span></strong><small>TAMAMLANAN BÖLÜM</small><small id="career-stats"></small></div></section>
+    <section class="career-strip" aria-label="Kariyer ilerlemesi"><div class="career-identity"><span class="rank-emblem">◆</span><div><small>PİLOT LİSANSI</small><strong id="career-rank">SEVİYE 1</strong></div></div><div class="career-progress"><div><span id="career-xp">0 / 500 XP</span><small>HER YENİ REKORDA İLERLE</small></div><div class="career-track"><i id="career-fill"></i></div></div><div class="career-rewards"><small>KOLEKSİYON</small><strong id="career-unlocks">1 / 12</strong></div></section>
+    <div class="game-layout">
+      <section class="play-column" aria-label="Oyun alanı">
+        <div class="arena-toolbar"><span class="live-dot"></span><select id="level-select" aria-label="Hızlı bölüm seç"></select><span class="difficulty" id="difficulty-label">ISINMA</span><div class="toolbar-actions"><button id="pause" title="Duraklat · P" aria-label="Duraklat" disabled>Ⅱ</button><button id="fullscreen" title="Tam ekran" aria-label="Tam ekran">⛶</button></div></div>
+        <div class="arena" id="arena">
+          <canvas id="game" width="1200" height="540" aria-label="Wave oyunu: yükselmek için boşluk tuşuna veya ekrana basılı tut, alçalmak için bırak." tabindex="0"></canvas>
+          <div class="hud" id="hud" hidden><span id="attempt">DENEME 01</span><span id="practice-badge" hidden>ANTRENMAN</span><span id="mode-badge">WAVE · NORMAL · 1×</span><span id="progress">0%</span></div><div class="progress-track"><i id="progress-bar"></i></div>
+          <div class="overlay" id="overlay"><div class="overlay-kicker" id="overlay-kicker">HAZIR MISIN?</div><h2 id="overlay-title">Ritmi yakala.<br>Çizgini koru.</h2><p id="overlay-copy">Basılı tut, yüksel. Bırak, alçal. Engellere dokunma.</p><div class="run-result" id="result-stats" hidden></div><button class="primary" id="play">BAŞLA <span>↗</span></button><div class="overlay-actions"><button id="overlay-character">◇ Koleksiyon</button><button id="overlay-levels">☷ Bölüm kütüphanesi</button></div><span class="key-hint" id="key-hint">SPACE VEYA DOKUN</span></div>
+          <div class="arena-caption"><span id="sector-label">SOLAR SECTOR</span><span id="arena-caption">01 — İlk Işık</span><span id="record-caption">REKOR %0</span></div>
+        </div>
+        <div class="under-arena"><div class="controls"><kbd>SPACE</kbd><span>basılı tut → yüksel</span><span class="control-separator">/</span><span>bırak → alçal</span></div><div class="quick-controls"><button id="restart" title="Yeniden başlat · R">↻ <span>Yeniden</span></button><button id="help">? <span>Nasıl oynanır</span></button></div></div>
+        <div class="bottom-panels"><section class="character-panel"><div class="section-label"><h2>Hangarın</h2><span id="character-name">01 / FOTON</span></div><div class="characters" id="characters"></div></section><section class="practice-panel"><div><h2>Sonraki geçişe hazırlan.</h2><p>Her %10’da kayıt. Başlangıç: <b id="practice-position">%0</b></p><input id="practice-start" type="range" min="0" max="90" step="5" value="0" aria-label="Antrenman başlangıç yüzdesi"></div><button id="practice" class="toggle" role="switch" aria-checked="false" aria-label="Antrenman modu"><span></span></button></section></div>
+        <section class="mission-panel"><div class="section-label"><h2>Sıradaki hedefin</h2><span>OYNA · KAZAN · GELİŞ</span></div><div id="mission-list"></div></section>
+      </section>
+      <aside class="level-panel" id="level-panel" aria-label="Bölüm kütüphanesi">
+        <div class="section-label"><h2>Parkur arşivi</h2><span id="library-summary">2.500 PARKUR</span></div>
+        <div class="library-tabs" aria-label="Parkur türü"><button data-library="campaign" aria-pressed="true" class="selected">ANA HİKÂYE <span>18</span></button><button data-library="expedition" aria-pressed="false">KEŞİF <span>2.482</span></button></div>
+        <div id="chapters" class="chapters" aria-label="Hikâye bölümleri"></div>
+        <div class="library-tools" id="library-tools" hidden><input id="level-search" type="search" placeholder="Parkur adı veya numarası…" aria-label="Keşif parkuru ara" autocomplete="off"><select id="tier-filter" aria-label="Zorluk filtresi"><option value="all">Tüm zorluklar</option><option value="beginner">Isınma – Zor</option><option value="expert">Zor+ – Demon</option><option value="extreme">Demon+ – Kabus+</option><option value="unfinished">Bitirmediklerim</option><option value="mastered">Üç enerjili zaferler</option></select></div>
+        <div id="levels" class="levels"></div><div class="pagination" id="pagination" hidden><button id="page-prev" aria-label="Önceki parkur sayfası">←</button><span id="page-label" aria-live="polite">1 / 311</span><button id="page-next" aria-label="Sonraki parkur sayfası">→</button></div>
+        <div class="aside-footer"><span>◆</span><p id="library-footnote">18 ana parkur. Tek bir zirve.<br><strong>GRIEF seni bekliyor.</strong></p><span class="footer-wave">⌁</span></div>
+      </aside>
+    </div>
+    <footer class="page-footer"><span>Sarı Wave Challange <b>© 2026</b></span><span id="music-label">ÖZGÜN ELEKTRONİK MÜZİK</span><span>ODAKLAN. HİSSET. AKIŞTA KAL. <span class="tiny-diamond">◆</span></span></footer>
+  </main>
+</div>
+<div id="reward-toast" class="reward-toast" role="status" hidden><span>✦</span><div><strong id="reward-title"></strong><p id="reward-copy"></p></div></div>
+<dialog id="help-dialog"><button class="close-dialog" aria-label="Kapat">×</button><p class="eyebrow">KONTROL SENDE</p><h2>Bir dokunuş.<br>Sonsuz deneme.</h2><p><kbd>SPACE</kbd> / <kbd>↑</kbd> / fare / dokunmatik: basılı tutarak yüksel, bırakarak alçal. Normal wave 45°, mini wave 2:1 eğimle ilerler. Mavi portallar yerçekimini ters çevirir.</p><p>18 ana parkuru fethet; keşifte 2.482 farklı rotayı ara ve zorluğa göre süz. Her parkurda üç enerji parçası var. Grief, ana hikâyenin en zor finali.</p><p>Yeni rekorlar XP, bitirdiğin farklı bölümler ve enerji parçaları yeni karakterler kazandırır. <kbd>C</kbd> ile koleksiyonu aç. Bütün karakterlerin fiziği aynı; farkları görünümleridir.</p><p><kbd>P</kbd> / <kbd>ESC</kbd> duraklatır, <kbd>R</kbd> yeniden başlatır. Antrenmanda her %10’da kontrol noktası kaydedilir. Başlangıç yüzdesini ayarlayabilirsin. Antrenman XP ve karakter kazandırmaz.</p><p>İlerleme ve ayarların bu cihazda otomatik saklanır. Müzik ilk Başla hareketinde devreye girer.</p><button class="primary close-help">ANLAŞILDI <span>↗</span></button></dialog>
+<dialog id="character-dialog" class="character-dialog" aria-labelledby="picker-title"><button id="character-close" class="close-dialog" aria-label="Koleksiyonu kapat">×</button><p class="eyebrow">12 KARAKTER · HER BİRİ BİR HİKÂYE</p><h2 id="picker-title">Mirasını kazan.</h2><p>Parkurları tamamla, enerji topla, hangarını büyüt. Kazandığın karakteri istediğin zaman seç.</p><div id="character-cards" class="character-cards"></div><button id="character-confirm" class="primary">OYUNA DÖN <span>↗</span></button><small class="music-notice">Bütün karakterler aynı fizik ile uçar.</small></dialog>
+<dialog id="settings-dialog" aria-labelledby="settings-title"><button class="close-dialog" id="settings-close" aria-label="Ayarları kapat">×</button><p class="eyebrow">OYUNU KENDİNE UYARLA</p><h2 id="settings-title">Ayarlar</h2><label class="setting-row" for="volume">Ses düzeyi <strong id="volume-value">55%</strong></label><input id="volume" type="range" min="0" max="100" step="1" value="55"><div class="setting-row"><div><h3>Işık parlamalarını azalt</h3><p>Ritim flaşlarını ve ekran parlamalarını kapatır.</p></div><button id="reduce-flashes" class="toggle" role="switch" aria-checked="false" aria-label="Işık parlamalarını azalt"><span></span></button></div><p class="settings-footnote">2.500 parkur · 12 kazanılabilir karakter<br>18 ana parkur + 2.482 tohumdan üretilmiş keşif rotası.<br>Rekorlar ve ayarlar cihazında saklanır.</p></dialog>
+</body>
+</html>
